@@ -1,0 +1,2 @@
+package com.penguin.cake.order;
+public enum OrderStatus { PENDING_PAYMENT, PAID, BAKING, QUALITY_CHECK, READY_TO_SHIP, DELIVERING, COMPLETED, REFUNDING, CANCELLED }

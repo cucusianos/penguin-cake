@@ -1,0 +1,37 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: penguin-cake-backend
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:penguin_cake}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${MYSQL_USER:penguin}
+    password: ${MYSQL_PASSWORD:penguin123}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:penguin}
+    password: ${RABBITMQ_PASSWORD:penguin123}
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+penguin:
+  cake-middleware:
+    enabled: true
+    default-mode: mock
+  waimai:
+    enabled: true
+    name: 歪买
+    jd:
+      app-key: ${JD_WAIMAI_APP_KEY:mock-jd-key}
+      app-secret: ${JD_WAIMAI_APP_SECRET:mock-jd-secret}
+    taobao:
+      app-key: ${TAOBAO_SHANGOU_APP_KEY:mock-taobao-key}
+      app-secret: ${TAOBAO_SHANGOU_APP_SECRET:mock-taobao-secret}
