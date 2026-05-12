@@ -3,7 +3,7 @@
 ## 设计目标
 
 - 官网前台与后台运营分离：未登录用户看产品，登录用户进入总部/门店运营后台。
-- 外卖平台“歪买”作为内部外卖聚合层，对接京东外卖、淘宝闪购和 Mock 通道。
+- 外卖平台“外卖”作为内部外卖聚合层，对接京东外卖、淘宝闪购和 Mock 通道。
 - 地图大屏前端内嵌高德地图 JS API，未配置 Key 时自动降级为离线珠三角 12 城展示。
 - 引入“蛋糕解耦中间件”，把支付、验券、外卖、仓库、采购、配送之间的直接调用改为事件驱动。
 
@@ -16,11 +16,11 @@ interfaces/rest  → application services → domain model/events → cake decou
 ## 核心模式
 
 - DDD 聚合：`OrderAggregate`、`CakeLifecycleStatus`
-- 六边形架构：`PaymentGateway`、`VoucherAdapter`、`WaimaiAdapter`
+- 六边形架构：`PaymentGateway`、`VoucherAdapter`、`TakeoutAdapter`
 - Outbox 思路：`EventEnvelope`、`CakeDecouplingMiddleware`
 - 幂等键：`topic + aggregateId`
 - 地理位置上报：`/api/geo/location-reports`
-- 外卖接口别名：`/api/waimai/**` 与 `/api/takeout/**`
+- 外卖接口别名：`/api/takeout/**` 与 `/api/takeout/**`
 
 ## 生产化建议
 

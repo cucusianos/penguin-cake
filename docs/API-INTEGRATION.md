@@ -1,19 +1,19 @@
 # 第三方平台接入说明
 
-## 外卖平台：歪买
+## 外卖平台：外卖
 
-“歪买”是本项目内部的外卖聚合平台，不是一个外部品牌。它统一封装：
+“外卖”是本项目内部的外卖聚合平台，不是一个外部品牌。它统一封装：
 
-- 京东外卖：`JdWaimaiAdapter`
+- 京东外卖：`JdTakeoutAdapter`
 - 淘宝闪购：`TaobaoShangouAdapter`
-- 本地演示：`MockWaimaiAdapter`
+- 本地演示：`MockTakeoutAdapter`
 
 接口别名：
 
 ```http
-GET  /api/waimai/platforms
-POST /api/waimai/orders/sync
-POST /api/waimai/orders/status
+GET  /api/takeout/platforms
+POST /api/takeout/orders/sync
+POST /api/takeout/orders/status
 GET  /api/takeout/platforms
 POST /api/takeout/orders/sync
 POST /api/takeout/orders/status

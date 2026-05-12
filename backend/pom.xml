@@ -12,7 +12,7 @@
   <artifactId>penguin-cake-backend</artifactId>
   <version>1.0.0</version>
   <name>penguin-cake-backend</name>
-  <description>企鹅蛋糕 - 连锁烘焙官网商城、仓配运营、多支付、多验券和歪买平台中台</description>
+  <description>企鹅蛋糕 - 连锁烘焙官网商城、仓配运营、多支付、多验券和外卖平台中台</description>
   <properties>
     <java.version>17</java.version>
     <mybatis-plus.version>3.5.7</mybatis-plus.version>

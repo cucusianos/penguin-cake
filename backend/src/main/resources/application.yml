@@ -26,12 +26,12 @@ penguin:
   cake-middleware:
     enabled: true
     default-mode: mock
-  waimai:
+  takeout:
     enabled: true
-    name: 歪买
+    name: 外卖
     jd:
-      app-key: ${JD_WAIMAI_APP_KEY:mock-jd-key}
-      app-secret: ${JD_WAIMAI_APP_SECRET:mock-jd-secret}
+      app-key: ${JD_TAKEOUT_APP_KEY:mock-jd-key}
+      app-secret: ${JD_TAKEOUT_APP_SECRET:mock-jd-secret}
     taobao:
       app-key: ${TAOBAO_SHANGOU_APP_KEY:mock-taobao-key}
       app-secret: ${TAOBAO_SHANGOU_APP_SECRET:mock-taobao-secret}

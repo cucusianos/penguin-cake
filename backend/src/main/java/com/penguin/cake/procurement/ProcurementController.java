@@ -18,7 +18,7 @@ public class ProcurementController {
         return ApiResponse.ok(List.of(
             Map.of("poNo","PO20260511001","material","动物淡奶油","qty",300,"amount",13200,"status","已入库"),
             Map.of("poNo","PO20260511002","material","草莓","qty",120,"amount",4560,"status","质检中"),
-            Map.of("poNo","PO20260511003","material","马卡龙壳","qty",5000,"amount",9800,"status","运输中")
+            Map.of("poNo","PO20260511003","material","海盐芝士乳酪","qty",5000,"amount",9800,"status","运输中")
         ));
     }
 }

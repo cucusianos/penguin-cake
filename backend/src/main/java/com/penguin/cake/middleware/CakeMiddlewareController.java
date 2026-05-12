@@ -12,7 +12,7 @@ public class CakeMiddlewareController {
     @GetMapping("/topology") public ApiResponse<Map<String,Object>> topology(){
         return ApiResponse.ok(Map.of(
             "layers", List.of("interface-rest", "application-services", "domain-aggregates", "cake-decoupling-middleware", "infrastructure-adapters"),
-            "adapters", List.of("wechat-pay", "alipay", "stripe", "crypto", "meituan", "koubei", "douyin", "jd-waimai", "taobao-shangou", "amap-geo"),
+            "adapters", List.of("wechat-pay", "alipay", "stripe", "crypto", "meituan", "koubei", "douyin", "jd-takeout", "taobao-shangou", "amap-geo"),
             "patterns", List.of("DDD", "Hexagonal Architecture", "Outbox", "Adapter/Gateway", "Idempotency Key")
         ));
     }

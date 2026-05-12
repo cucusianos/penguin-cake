@@ -1,148 +1,70 @@
-# 企鹅蛋糕 Penguin Cake v3 · ORYZO 三端优化版
+# 企鹅蛋糕 Penguin Cake · V5 严格还原版
 
-> 面向连锁烘焙品牌的 **前台官网商城 + 中台运营编排 + 后台经营管理** 一体化项目。新版彻底摈弃马卡龙浅色风格，采用真实蛋糕摄影、深色软木质感、锈橙色操作焦点和高密度经营数据界面。
+企鹅蛋糕是一个基于 **Vue 3 + TypeScript + Spring Boot 3** 的真实蛋糕品牌三端系统。V5 版本严格按照三张设计图重新打磨为 **前台官网 / 中台运营中心 / 后台管理驾驶舱**，视觉参考 ORYZO 深色软木质感设计系统，采用真实蛋糕摄影、高级暗色界面、锈橙色交互焦点和高密度经营看板。
 
-![项目详解信息图](docs/images/project-infographic.png)
+## 三端预览
 
-## 1. 本次优化重点
+### 1. 官网前台 `/`
 
-- **视觉重构**：参考 Refero ORYZO 风格，统一使用深色软木质感、暖色文字、锈橙色 CTA、12px 卡片、36px 胶囊按钮。
-- **真实蛋糕内容**：替换为更逼真的巧克力、草莓奶油、提拉米苏、巴斯克芝士等蛋糕摄影风格内容。
-- **三端产品架构**：从单后台升级为 `前台 / 中台 / 后台` 三端分工。
-- **中台增强**：订单中台、支付网关、验券中心、歪买外卖、蛋糕解耦中间件、配送调度统一编排。
-- **后台增强**：经营报表、珠三角 12 城地图、门店销售、仓库货损、蛋糕状态、原材料库存、进货与配送管理。
+- 未登录即可浏览产品展示
+- 蛋糕类别点击生效：全部蛋糕 / 巧克力 / 芝士 / 水果 / 慕斯
+- 点击加入购物车后进入购物车链路
+- 必须填写收货人、手机号、城市、详细地址、送达时间后，才能进入支付页
+- 页面结构严格对齐设计图：顶部导航、左侧 01/02/03/04 序号、Hero 真实蛋糕、横向商品卡、时令限定、门店体验、配送服务、右侧悬浮工具栏、Footer
 
-## 2. 设计稿预览
+![官网前台](docs/images/frontstage-design.jpg)
 
-| 前台官网 | 中台运营 | 后台管理 |
-|---|---|---|
-| ![](docs/images/frontstage-oryzo-realistic.png) | ![](docs/images/middle-platform-oryzo.png) | ![](docs/images/backend-admin-oryzo.png) |
+### 2. 中台运营中心 `/middle`
 
-## 3. 三端定位
+- 今日订单概览
+- 渠道订单流转
+- 外卖平台聚合：京东外卖 / 淘宝闪购 / 外卖聚合
+- 支付网关状态：微信支付 / 支付宝 / Stripe / 虚拟币支付
+- 验券中心：美团券 / 口碑券 / 抖音券
+- 库存预警、商品中心、配送调度、服务健康状态
+- 页面结构严格按中台图重排，重点突出运营编排与状态监控
 
-### 前台 Frontstage
+![中台运营中心](docs/images/middle-design.jpg)
 
-面向普通消费者，未登录也可以访问。
+### 3. 后台管理驾驶舱 `/back`
 
-- 官网首页
-- 真实蛋糕产品展示
-- 蛋糕商城 / 定制蛋糕
-- 门店配送说明
-- 订单状态查询
-- 登录入口
+- 销售额、订单量、客单价、新增会员、配送中订单、骑手在线
+- 门店表现、珠三角门店与配送地图、仓库状态、货损上报、采购进货、冷链温度、员工在线
+- 销售金额趋势、畅销蛋糕 TOP5、支付渠道占比、城市销售额排名、订单来源占比
+- 仓库管理、货损记录、蛋糕状态、原材料预警、采购单、配送任务
+- 页面结构严格按后台管理驾驶舱图重排，形成高密度经营大屏
 
-访问：`http://localhost:5173/`
+![后台管理驾驶舱](docs/images/backend-design.jpg)
 
-### 中台 Middle Platform
-
-面向运营、门店、客服、履约团队，负责系统之间的协作与流转。
-
-- 订单中台
-- 支付网关：微信支付 / 支付宝 / Stripe / 虚拟币
-- 验券中心：美团 / 口碑 / 抖音
-- 外卖平台：京东外卖 / 淘宝闪购 / 歪买聚合
-- 蛋糕解耦中间件：事件总线、幂等、Outbox、事件日志
-- 配送调度：骑手、位置、冷链温控
-
-访问：`http://localhost:5173/middle`
-
-### 后台 Backstage
-
-面向总部管理层、财务、仓储、采购与门店管理员。
-
-- 经营仪表盘
-- 销售金额趋势
-- 热销蛋糕排行
-- 各门店销售对比
-- 支付方式占比
-- 珠三角 12 城门店地图
-- 仓库管理、货损上报、蛋糕状态
-- 进货管理、原材料库存预警
-- 配送管理、骑手定位、准时率统计
-
-访问：`http://localhost:5173/back`
-
-## 4. 核心架构
+## 核心技术栈
 
 ```text
-消费者 / 门店 / 平台订单
-        │
-        ▼
-前台 Frontstage：官网展示、下单、订单状态
-        │
-        ▼
-中台 Middle Platform：订单编排、支付网关、验券中心、外卖聚合、事件解耦
-        │
-        ▼
-后台 Backstage：经营报表、仓储、进货、货损、配送、门店管理
-        │
-        ▼
-基础设施：MySQL / Redis / RabbitMQ / MinIO / Nginx / Docker
+前端：Vue 3 + TypeScript + Vite + Pinia + Vue Router + Naive UI
+后端：Spring Boot 3 + Spring Security + MyBatis-Plus 风格接口分层
+数据库：MySQL
+缓存：Redis
+地图：高德地图配置预留，页面内置离线珠三角可视化 Mock
+部署：Docker Compose + Nginx + Spring Boot Jar
 ```
 
-## 5. 技术栈
+## 业务模块
+
+```text
+官网前台：真实蛋糕展示、分类筛选、加入购物车、订单状态入口
+购物车：数量增减、删除、收货人、手机号、地址、送达时间、备注
+支付：微信支付、支付宝、Stripe、虚拟币支付、Mock 支付适配器
+验券：美团、口碑、抖音验券与核销接口
+外卖：京东外卖、淘宝闪购、外卖聚合适配器
+中间件：蛋糕解耦中间件 / 事件总线
+仓储：库存预警、蛋糕状态、货损上报、冷链温度
+进货：供应商、采购单、原材料库存与预警
+配送：骑手任务、位置上报、配送状态、冷链监控
+报表：销售额、销量、门店、城市、支付方式、订单来源
+```
+
+## 启动方式
 
 ### 前端
-
-```text
-Vue 3 + TypeScript + Vite + Naive UI + UnoCSS + Pinia + Vue Router
-AMap JSAPI Loader + ECharts + Axios
-```
-
-### 后端
-
-```text
-Spring Boot 3 + Java 17 + MyBatis-Plus + MySQL + Redis + RabbitMQ + MinIO
-DDD + 六边形架构 + Adapter/Gateway + Outbox + 事件解耦中间件
-```
-
-## 6. 目录结构
-
-```text
-penguin-cake-oryzo/
-├─ frontend/                 Vue3 前台 / 中台 / 后台
-│  └─ src/views/
-│     ├─ PublicHome.vue      前台官网
-│     ├─ MiddleLayout.vue    中台布局
-│     ├─ MiddleDashboard.vue 中台运营看板
-│     ├─ BackendLayout.vue   后台布局
-│     └─ BackendDashboard.vue后台经营仪表盘
-├─ backend/                  Spring Boot 后端
-│  └─ src/main/java/com/penguin/cake/
-│     ├─ domain/             领域模型与事件
-│     ├─ application/        应用服务
-│     ├─ infrastructure/     消息、地图、平台适配
-│     ├─ middleware/         蛋糕解耦中间件
-│     ├─ payment/            支付网关
-│     ├─ voucher/            验券适配器
-│     ├─ waimai/             歪买外卖聚合平台
-│     ├─ warehouse/          仓库管理
-│     ├─ procurement/        进货管理
-│     └─ delivery/           配送管理
-├─ sql/init.sql              初始化 SQL
-├─ docs/ARCHITECTURE.md      架构说明
-├─ docs/API-INTEGRATION.md   第三方接入说明
-├─ docker-compose.yml
-└─ scripts/
-```
-
-## 7. 启动方式
-
-### 1）启动基础设施
-
-```bash
-cp .env.example .env
-bash scripts/start-docker.sh
-```
-
-### 2）启动后端
-
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-### 3）启动前端
 
 ```bash
 cd frontend
@@ -153,35 +75,38 @@ npm run dev
 访问：
 
 ```text
-前台官网：http://localhost:5173/
-登录页：http://localhost:5173/login
+官网前台：http://localhost:5173/
 中台运营：http://localhost:5173/middle
 后台管理：http://localhost:5173/back
-兼容旧后台：http://localhost:5173/admin  会重定向到 /back
-后端接口：http://localhost:8080/swagger-ui.html
+购物车：http://localhost:5173/cart
+支付页：http://localhost:5173/checkout
 ```
 
-## 8. 高德地图配置
+### 后端
 
-生产环境请在 `.env` 或前端环境变量中配置：
-
-```env
-VITE_AMAP_KEY=你的高德Web端Key
-VITE_AMAP_SECURITY_JS_CODE=你的高德安全密钥
+```bash
+cd backend
+mvn spring-boot:run
 ```
 
-未配置时，地图大屏会自动显示离线模拟版，方便本地演示。
+### Docker Compose
 
-## 9. 外卖平台说明
+```bash
+docker compose up -d --build
+```
 
-“歪买”是本项目内部的外卖聚合平台，统一封装京东外卖和淘宝闪购：
+## V5 重点修复
 
 ```text
-官网/中台 → 歪买外卖聚合层 → 京东外卖 Adapter
-                         └──→ 淘宝闪购 Adapter
-                         └──→ Mock Adapter
+1. 严格按照三张设计图重排：首页、中台、后台
+2. 统一外卖命名为外卖平台 / 外卖聚合 / Takeout
+3. 补齐中台底部栏目：库存预警、商品中心、配送调度、服务健康状态
+4. 补齐后台栏目：门店表现、仓库状态、货损、原材料、采购、配送任务
+5. 增加购物车完整链路：加入购物车 → 地址与个人信息 → 支付页面
+6. 修复蛋糕类别点击不生效问题
+7. 整理 TypeScript 导出、路由和主要页面格式
 ```
 
-## 10. 重要说明
+## 第三方平台说明
 
-真实支付、验券、京东外卖、淘宝闪购与高德地图均需要平台资质、商户密钥、证书和回调验签。项目已生成接口层、适配器层和 Mock 通道，便于本地演示和后续替换真实 SDK。
+真实对接微信、支付宝、Stripe、虚拟币支付、美团验券、口碑验券、抖音验券、京东外卖、淘宝闪购与高德地图时，需要在 `.env` / `application.yml` 中配置对应商户号、密钥、证书和回调地址。当前项目默认保留 Mock + Adapter 结构，方便本地演示和二次扩展。

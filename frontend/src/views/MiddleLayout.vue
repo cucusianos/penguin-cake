@@ -1,23 +1,25 @@
 <template>
-  <div class="oryzo-shell stage-layout">
+  <div class="stage-shell">
     <aside class="stage-sidebar">
-      <RouterLink to="/" class="brand-mark" style="margin-bottom:24px"><span class="brand-penguin">🐧</span><span>企鹅蛋糕中台</span></RouterLink>
-      <div class="side-section">运营编排</div>
-      <RouterLink to="/middle">🏠 订单中台</RouterLink>
-      <RouterLink to="/middle/payment">💳 支付网关</RouterLink>
-      <RouterLink to="/middle/voucher">🎟️ 验券中心</RouterLink>
-      <RouterLink to="/middle/waimai">🛵 歪买外卖</RouterLink>
-      <RouterLink to="/middle/middleware">🔗 蛋糕解耦中间件</RouterLink>
-      <RouterLink to="/middle/delivery">🚚 配送调度</RouterLink>
-      <div class="side-section">切换</div>
-      <RouterLink to="/back">📊 进入后台</RouterLink>
-      <RouterLink to="/">🌐 返回前台</RouterLink>
+      <RouterLink to="/" class="brand-logo">
+        <span class="mark">🐧</span>
+        <span>企鹅蛋糕<small>PENGUIN CAKE</small></span>
+      </RouterLink>
+      <RouterLink class="side-link active" to="/middle">⌂ 首页概览</RouterLink>
+      <RouterLink class="side-link" to="/middle/orders">▣ 订单中心 <span>⌄</span></RouterLink>
+      <RouterLink class="side-link" to="/middle/payment">▤ 支付网关</RouterLink>
+      <RouterLink class="side-link" to="/middle/voucher">▧ 验券中心</RouterLink>
+      <RouterLink class="side-link" to="/middle/takeout">☍ 外卖聚合</RouterLink>
+      <RouterLink class="side-link" to="/middle/middleware">⟲ 仓储联动</RouterLink>
+      <RouterLink class="side-link" to="/middle/delivery">▰ 配送调度</RouterLink>
+      <RouterLink class="side-link" to="/back">◇ 门店运营</RouterLink>
+      <div class="side-footer">
+        <RouterLink class="side-link" to="/back">进入后台</RouterLink>
+        <RouterLink class="side-link" to="/">返回前台</RouterLink>
+        <p>企鹅蛋糕中台<br />V 5.0.0</p>
+      </div>
     </aside>
     <main class="stage-main">
-      <div class="stage-topbar">
-        <input class="input-dark" placeholder="搜索订单 / 门店 / 用户 / 商品  ⌘K" />
-        <div style="display:flex;gap:12px;align-items:center"><span class="status-pill warn">🔔 8</span><span class="status-pill">中台管理员</span></div>
-      </div>
       <RouterView />
     </main>
   </div>

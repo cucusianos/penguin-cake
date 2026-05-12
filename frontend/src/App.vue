@@ -5,8 +5,10 @@
     </n-message-provider>
   </n-config-provider>
 </template>
+
 <script setup lang="ts">
-import { NConfigProvider, NMessageProvider } from 'naive-ui'
+import { NConfigProvider, NMessageProvider } from 'naive-ui';
+
 const themeOverrides = {
   common: {
     primaryColor: '#dc5000',
@@ -19,8 +21,14 @@ const themeOverrides = {
     modalColor: '#1e140d',
     borderColor: 'rgba(255,237,215,.14)'
   },
-  Button: { borderRadiusMedium: '36px' },
-  Card: { borderRadius: '12px' },
-  Input: { borderRadius: '36px' }
-}
+  Button: {
+    borderRadiusMedium: '36px'
+  },
+  Card: {
+    borderRadius: '12px'
+  },
+  Input: {
+    borderRadius: '36px'
+  }
+};
 </script>

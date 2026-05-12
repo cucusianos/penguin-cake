@@ -13,8 +13,8 @@ public class ProductController {
         List<Map<String, Object>> all = List.of(
             product(1,"企鹅莓果慕斯","草莓、蓝莓与轻芝士慕斯，珠三角冷链当日达", new BigDecimal("168.00"),"/images/cake-strawberry.png"),
             product(2,"雪顶可可企鹅蛋糕","比利时黑巧、淡奶油、榛果碎", new BigDecimal("198.00"),"/images/cake-hazelnut.png"),
-            product(3,"马卡龙云朵蛋糕","法式马卡龙、香草奶油、低糖胚", new BigDecimal("228.00"),"/images/cake-macaron.png"),
-            product(4,"儿童企鹅派对蛋糕","卡通企鹅造型，支持祝福语定制", new BigDecimal("258.00"),"/images/cake-bear.png")
+            product(3,"巴斯克焦香芝士蛋糕","焦香芝士、海盐奶油、绵密乳酪胚", new BigDecimal("238.00"),"/images/cake-hero.png"),
+            product(4,"黑森林莓果蛋糕","黑巧戚风、樱桃酒香、莓果夹心，支持祝福语定制", new BigDecimal("258.00"),"/images/cake-realistic-1.png")
         );
         if (keyword == null || keyword.isBlank()) return ApiResponse.ok(all);
         return ApiResponse.ok(all.stream().filter(p -> String.valueOf(p.get("name")).contains(keyword)).toList());
@@ -26,7 +26,7 @@ public class ProductController {
     private Map<String,Object> product(Integer id,String name,String desc,BigDecimal price,String image){
         Map<String,Object> map = new LinkedHashMap<>();
         map.put("id",id); map.put("name",name); map.put("description",desc); map.put("price",price); map.put("image",image);
-        map.put("tags", List.of("马卡龙色","冷链配送","支持定制"));
+        map.put("tags", List.of("真实摄影","冷链配送","支持定制"));
         return map;
     }
 }

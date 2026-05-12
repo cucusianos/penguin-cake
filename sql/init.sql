@@ -163,5 +163,5 @@ ON DUPLICATE KEY UPDATE description=VALUES(description);
 
 INSERT INTO platform_gateway_status(gateway_type,gateway_name,status,success_rate,today_count) VALUES
 ('PAYMENT','微信支付','NORMAL',98.73,862),('PAYMENT','支付宝','NORMAL',98.54,534),('PAYMENT','Stripe','NORMAL',99.21,213),('PAYMENT','虚拟币支付','NORMAL',99.02,37),
-('TAKEOUT','京东外卖','ONLINE',98.10,1842),('TAKEOUT','淘宝闪购','ONLINE',97.80,1326),('TAKEOUT','歪买聚合','ONLINE',99.00,674),
+('TAKEOUT','京东外卖','ONLINE',98.10,1842),('TAKEOUT','淘宝闪购','ONLINE',97.80,1326),('TAKEOUT','外卖聚合','ONLINE',99.00,674),
 ('VOUCHER','美团验券','NORMAL',98.24,245),('VOUCHER','口碑验券','NORMAL',97.81,129),('VOUCHER','抖音验券','NORMAL',98.73,312);

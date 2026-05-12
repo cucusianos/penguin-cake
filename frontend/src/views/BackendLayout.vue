@@ -1,23 +1,27 @@
 <template>
-  <div class="oryzo-shell stage-layout">
+  <div class="stage-shell backend-shell">
     <aside class="stage-sidebar">
-      <RouterLink to="/" class="brand-mark" style="margin-bottom:24px"><span class="brand-penguin">🐧</span><span>企鹅蛋糕后台</span></RouterLink>
-      <div class="side-section">数据与管理</div>
-      <RouterLink to="/back">🔥 仪表盘</RouterLink>
-      <RouterLink to="/back/orders">📄 订单管理</RouterLink>
-      <RouterLink to="/back/map">🗺️ 地图大屏</RouterLink>
-      <RouterLink to="/back/warehouse">🏬 仓库管理</RouterLink>
-      <RouterLink to="/back/procurement">🧾 进货管理</RouterLink>
-      <RouterLink to="/back/delivery">🚚 配送管理</RouterLink>
-      <div class="side-section">切换</div>
-      <RouterLink to="/middle">🧩 进入中台</RouterLink>
-      <RouterLink to="/">🌐 返回前台</RouterLink>
+      <RouterLink to="/" class="brand-logo">
+        <span class="mark">🐧</span>
+        <span>企鹅蛋糕后台</span>
+      </RouterLink>
+      <RouterLink class="side-link active" to="/back">◉ 管理驾驶舱</RouterLink>
+      <RouterLink class="side-link" to="/back/orders">▤ 订单管理</RouterLink>
+      <RouterLink class="side-link" to="/back">▦ 商品管理</RouterLink>
+      <RouterLink class="side-link" to="/back">⌂ 门店管理</RouterLink>
+      <RouterLink class="side-link" to="/back/warehouse">▣ 库存管理</RouterLink>
+      <RouterLink class="side-link" to="/back/warehouse">△ 货损上报</RouterLink>
+      <RouterLink class="side-link" to="/back/warehouse">◌ 蛋糕状态</RouterLink>
+      <RouterLink class="side-link" to="/back/procurement">▧ 进货管理</RouterLink>
+      <RouterLink class="side-link" to="/back/procurement">◫ 原材料</RouterLink>
+      <RouterLink class="side-link" to="/back/delivery">▰ 配送管理</RouterLink>
+      <RouterLink class="side-link" to="/back">⚙ 权限设置</RouterLink>
+      <div class="side-footer">
+        <RouterLink class="side-link" to="/middle">进入中台</RouterLink>
+        <RouterLink class="side-link" to="/">返回前台</RouterLink>
+      </div>
     </aside>
     <main class="stage-main">
-      <div class="stage-topbar">
-        <input class="input-dark" placeholder="搜索功能、订单、门店、商品名" />
-        <div style="display:flex;gap:12px;align-items:center"><span class="status-pill warn">消息 12</span><span class="status-pill">管理员</span></div>
-      </div>
       <RouterView />
     </main>
   </div>

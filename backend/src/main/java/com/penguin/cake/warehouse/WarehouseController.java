@@ -17,7 +17,7 @@ public class WarehouseController {
         return ApiResponse.ok(List.of(
             Map.of("batchNo","CAKE-20260511-001","name","企鹅莓果慕斯","status","冷藏中","qty",320,"warehouse","广州中心仓","expireAt","2026-05-13"),
             Map.of("batchNo","CAKE-20260511-002","name","雪顶可可企鹅蛋糕","status","待出库","qty",180,"warehouse","深圳前置仓","expireAt","2026-05-13"),
-            Map.of("batchNo","CAKE-20260510-023","name","马卡龙云朵蛋糕","status","临期预警","qty",24,"warehouse","佛山仓","expireAt","2026-05-12")
+            Map.of("batchNo","CAKE-20260510-023","name","巴斯克焦香芝士蛋糕","status","临期预警","qty",24,"warehouse","佛山仓","expireAt","2026-05-12")
         ));
     }
     @PostMapping("/damage-reports") public ApiResponse<Map<String,Object>> damage(@RequestBody Map<String,Object> body){

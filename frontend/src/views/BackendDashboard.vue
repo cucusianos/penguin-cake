@@ -1,41 +1,226 @@
 <template>
-  <section>
-    <div class="oryzo-grid cols-6">
-      <div v-for="item in kpis" :key="item.label" class="oryzo-card metric"><span>{{ item.label }}</span><b>{{ item.value }}</b><span :class="item.warn ? 'trend-warn' : 'trend-up'">{{ item.delta }}</span></div>
+  <section class="backend-dashboard">
+    <header class="stage-header">
+      <h1>管理驾驶舱</h1>
+      <span class="muted">数据更新时间：2025-05-24 10:30:00 ↻</span>
+      <div class="stage-actions">
+        <span class="status-pill orange">消息 12</span>
+        <span class="status-pill">管理员 · 超级管理员</span>
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <article v-for="card in kpis" :key="card.title" class="dashboard-card kpi-card">
+        <span>{{ card.title }}</span>
+        <b>{{ card.value }}</b>
+        <small>{{ card.change }}</small>
+      </article>
     </div>
-    <div class="oryzo-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:18px">
-      <div class="oryzo-card card-pad"><h2>销售金额趋势</h2><div class="chart-line"><svg viewBox="0 0 600 210"><polyline points="0,160 80,120 160,138 240,88 320,112 400,58 500,98 600,52" fill="none" stroke="#dc5000" stroke-width="4"/><polygon points="0,210 0,160 80,120 160,138 240,88 320,112 400,58 500,98 600,52 600,210" fill="rgba(220,80,0,.22)"/></svg></div></div>
-      <div class="oryzo-card card-pad"><h2>热销蛋糕排行</h2><table class="table-dark"><tbody><tr v-for="(p,i) in products" :key="p.name"><td>{{ i+1 }}</td><td><img :src="p.img" class="product-thumb"/> {{ p.name }}</td><td>销量 {{ p.sale }}</td><td>¥{{ p.price }}</td></tr></tbody></table></div>
-      <div class="oryzo-card card-pad"><h2>支付方式占比</h2><div class="donut"><span>¥1,256,800<br/><small>成交金额</small></span></div><div class="legend"><span>微信支付 62.3%</span><span>支付宝 21.7%</span><span>会员余额 8.6%</span><span>银行卡 5.1%</span></div></div>
-    </div>
-    <div class="oryzo-grid" style="grid-template-columns:1.1fr .9fr 1fr;margin-top:18px">
-      <div class="oryzo-card card-pad"><h2>珠三角12城门店分布</h2><div class="mock-map" style="min-height:300px"><span v-for="pin in pins" :key="pin.city" class="map-pin" :class="pin.green ? 'green' : ''" :style="{left:pin.x+'%',top:pin.y+'%'}">{{ pin.city }} {{ pin.store }}</span></div></div>
-      <div class="oryzo-card card-pad"><h2>蛋糕状态总览</h2><div class="state-list"><div v-for="s in cakeStates" :key="s.name" :class="['state-row', s.bad ? 'bad' : '']"><span>{{ s.name }}</span><b>{{ s.count }}</b></div></div></div>
-      <div class="oryzo-card card-pad"><h2>原材料库存预警</h2><table class="table-dark"><thead><tr><th>原材料</th><th>当前库存</th><th>安全库存</th><th>状态</th></tr></thead><tbody><tr v-for="m in materials" :key="m.name"><td>{{ m.name }}</td><td>{{ m.stock }}</td><td>{{ m.safe }}</td><td><span :class="['status-pill', m.low?'warn':'good']">{{ m.low?'偏低':'充足' }}</span></td></tr></tbody></table></div>
-    </div>
-    <div class="oryzo-grid" style="grid-template-columns:1fr 1fr;margin-top:18px">
-      <div class="oryzo-card card-pad"><h2>近期货损记录</h2><table class="table-dark"><tbody><tr v-for="d in damages" :key="d.time"><td>{{ d.time }}</td><td>{{ d.store }}</td><td>{{ d.product }}</td><td class="trend-warn">{{ d.reason }}</td><td>¥{{ d.amount }}</td></tr></tbody></table></div>
-      <div class="oryzo-card card-pad"><h2>今日进货记录</h2><table class="table-dark"><tbody><tr v-for="p in purchases" :key="p.no"><td>{{ p.time }}</td><td>{{ p.supplier }}</td><td>{{ p.material }}</td><td>{{ p.qty }}</td><td><span class="status-pill good">已入库</span></td></tr></tbody></table></div>
+
+    <div class="cockpit-grid">
+      <section class="dashboard-card card-pad store-rank">
+        <div class="panel-title-row"><h2>门店表现（今日）</h2><span>更多 ›</span></div>
+        <table class="table">
+          <thead><tr><th>门店</th><th>销售额</th><th>订单量</th></tr></thead>
+          <tbody>
+            <tr v-for="city in prdCities.slice(0, 5)" :key="city.city">
+              <td><b>{{ city.city }}核心店</b></td>
+              <td>{{ city.gmv.toLocaleString() }}</td>
+              <td>{{ city.orders }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="dashboard-card card-pad main-map">
+        <div class="panel-title-row"><h2>珠三角门店与配送地图</h2><div><span class="status-pill">图层</span><span class="status-pill">全屏</span></div></div>
+        <div class="prd-map cockpit-map">
+          <div v-for="city in prdCities" :key="city.city" :class="['map-marker', city.orders < 500 ? 'green' : '']" :style="{ left: `${city.x}%`, top: `${city.y}%` }">
+            {{ city.stores }}
+            <span class="map-label">{{ city.city }}</span>
+          </div>
+          <div class="map-legend">
+            <span>▣ 门店</span>
+            <span>▰ 仓库</span>
+            <span>▱ 配送中</span>
+            <span>▱ 损耗点</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-status">
+        <section class="dashboard-card card-pad mini-status">
+          <h2>仓库状态</h2>
+          <div class="status-boxes"><div><b>5</b><span>正常</span></div><div><b>1</b><span>预警</span></div><div><b>0</b><span>异常</span></div></div>
+        </section>
+        <section class="dashboard-card card-pad"><h2>货损上报（今日）</h2><b class="big-num">6 单</b><p class="muted">损失金额 2,530 元</p></section>
+        <section class="dashboard-card card-pad"><h2>原材料库存预警</h2><b class="big-num">7 种</b><p class="muted">低于安全库存</p></section>
+        <section class="dashboard-card card-pad"><h2>采购进货（今日）</h2><b class="big-num">12 单</b><p class="muted">入库金额 58,760 元</p></section>
+        <section class="dashboard-card card-pad"><h2>冷链温度（实时）</h2><b class="big-num green-text">3.2°C</b><p class="muted">监控点 36 个 · 正常</p></section>
+        <section class="dashboard-card card-pad"><h2>员工在线（门店）</h2><b class="big-num">238/312</b><p class="muted">在线率 76.3%</p></section>
+      </aside>
+
+      <section class="dashboard-card card-pad sales-trend">
+        <div class="panel-title-row"><h2>月度销售额趋势（元）</h2><span class="status-pill">月 / 年</span></div>
+        <div class="bar-row">
+          <i v-for="height in [62, 70, 82, 78, 90, 96]" :key="height" class="bar" :style="{ height: `${height}%` }"></i>
+          <i v-for="height in [42, 54, 63, 58, 70, 75]" :key="`last-${height}`" class="bar olive" :style="{ height: `${height}%` }"></i>
+        </div>
+      </section>
+
+      <section class="dashboard-card card-pad hot-ranking">
+        <div class="panel-title-row"><h2>畅销蛋糕 TOP5（今日）</h2><span>查看全部 ›</span></div>
+        <ol class="rank-list">
+          <li v-for="product in cakeProducts" :key="product.id">
+            <img :src="product.image" :alt="product.name" />
+            <b>{{ product.name }}</b>
+            <span>{{ product.sales }}</span>
+            <strong>{{ product.price.toLocaleString() }}</strong>
+          </li>
+        </ol>
+      </section>
+
+      <section class="dashboard-card card-pad pay-share">
+        <div class="panel-title-row"><h2>支付渠道占比（今日）</h2></div>
+        <div class="donut" data-label="支付总额"></div>
+        <ul class="legend-list">
+          <li>微信支付 54.3%</li><li>支付宝 28.7%</li><li>会员余额 9.6%</li><li>储值卡 4.8%</li><li>其他 2.6%</li>
+        </ul>
+      </section>
+
+      <section class="dashboard-card card-pad city-rank">
+        <div class="panel-title-row"><h2>城市销售额排名（今日）</h2><span>查看全部城市 ›</span></div>
+        <div v-for="city in prdCities.slice(0, 5)" :key="city.city" class="city-bar">
+          <span>{{ city.city }}</span>
+          <i><em :style="{ width: `${Math.min(100, city.gmv / 2800)}%` }"></em></i>
+          <b>{{ city.gmv.toLocaleString() }}</b>
+        </div>
+      </section>
+
+      <section class="dashboard-card card-pad order-source">
+        <div class="panel-title-row"><h2>订单来源占比（今日）</h2></div>
+        <div class="donut" data-label="8,732"></div>
+        <ul class="legend-list"><li>小程序 62.4%</li><li>美团外卖 17.6%</li><li>饿了么 9.8%</li><li>抖音团购 6.3%</li><li>其他 3.9%</li></ul>
+      </section>
+
+      <section class="dashboard-card card-pad warehouse-table">
+        <div class="panel-title-row"><h2>仓库管理</h2><span>查看全部仓库 ›</span></div>
+        <table class="table"><tbody><tr v-for="row in warehouses" :key="row[0]"><td><b>{{ row[0] }}</b></td><td><span class="status-pill green">{{ row[1] }}</span></td><td>{{ row[2] }}</td><td>{{ row[3] }}</td></tr></tbody></table>
+      </section>
+
+      <section class="dashboard-card card-pad loss-table">
+        <div class="panel-title-row"><h2>货损记录（近期）</h2><span>查看更多货损 ›</span></div>
+        <table class="table"><tbody><tr v-for="row in losses" :key="row[0]"><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td><b>{{ row[2] }}</b></td><td class="rust-text">{{ row[3] }}</td></tr></tbody></table>
+      </section>
+
+      <section class="dashboard-card card-pad cake-state">
+        <div class="panel-title-row"><h2>蛋糕状态（今日）</h2><span>查看全部状态 ›</span></div>
+        <div v-for="state in states" :key="state.name" class="state-row"><span>{{ state.name }}</span><b>{{ state.value }}</b><i :style="{ width: state.width }"></i></div>
+      </section>
+
+      <section class="dashboard-card card-pad materials-table">
+        <div class="panel-title-row"><h2>原材料预警</h2><span>查看全部预警 ›</span></div>
+        <table class="table"><tbody><tr v-for="row in materials" :key="row[0]"><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td><span :class="['status-pill', row[3] === '正常' ? 'green' : 'orange']">{{ row[3] }}</span></td></tr></tbody></table>
+      </section>
+
+      <section class="dashboard-card card-pad purchase-table">
+        <div class="panel-title-row"><h2>采购单（待处理）</h2><span>查看全部采购单 ›</span></div>
+        <table class="table"><tbody><tr v-for="row in purchases" :key="row[0]"><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td><span class="status-pill orange">{{ row[3] }}</span></td></tr></tbody></table>
+      </section>
+
+      <section class="dashboard-card card-pad delivery-table">
+        <div class="panel-title-row"><h2>配送任务（今日）</h2><span>查看全部任务 ›</span></div>
+        <table class="table"><tbody><tr v-for="row in deliveries" :key="row[0]"><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td>{{ row[3] }}</td></tr></tbody></table>
+      </section>
     </div>
   </section>
 </template>
+
 <script setup lang="ts">
-const kpis = [{label:'销售额',value:'¥1,256,800',delta:'较昨日 +12.6%'},{label:'销量',value:'8,642',delta:'较昨日 +8.1%'},{label:'门店数',value:'128',delta:'较昨日 +2'},{label:'毛利率',value:'62.4%',delta:'较上月 +1.8%'},{label:'货损率',value:'1.35%',delta:'较上月 -0.25%',warn:true},{label:'配送准时率',value:'97.6%',delta:'较昨日 +1.3%'}]
-const products = [{name:'浓情巧克力',sale:1268,price:268,img:'/images/cake-realistic-2.png'},{name:'草莓奶油蛋糕',sale:1025,price:268,img:'/images/cake-strawberry.png'},{name:'提拉米苏',sale:842,price:288,img:'/images/cake-hazelnut.png'},{name:'巴斯克芝士',sale:621,price:238,img:'/images/cake-hero.png'},{name:'抹茶千层蛋糕',sale:532,price:258,img:'/images/cake-realistic-1.png'}]
-const pins = [{city:'广州',store:18,x:50,y:24},{city:'深圳',store:24,x:68,y:68},{city:'珠海',store:6,x:50,y:82,green:true},{city:'佛山',store:12,x:40,y:38},{city:'东莞',store:14,x:60,y:42,green:true},{city:'中山',store:6,x:48,y:62},{city:'惠州',store:8,x:78,y:34},{city:'江门',store:4,x:34,y:62,green:true},{city:'肇庆',store:8,x:24,y:28,green:true}]
-const cakeStates = [{name:'待制作',count:1256},{name:'冷藏中',count:2350},{name:'待出库',count:1128},{name:'已配送',count:5842},{name:'报损',count:86,bad:true}]
-const materials = [{name:'奶油',stock:'1,286 kg',safe:'600',low:false},{name:'面粉',stock:'856 kg',safe:'500',low:false},{name:'可可粉',stock:'256 kg',safe:'300',low:true},{name:'草莓',stock:'128 kg',safe:'200',low:true}]
-const damages = [{time:'05-18 09:21',store:'深圳福田店',product:'草莓奶油蛋糕',reason:'破损',amount:536},{time:'05-18 08:44',store:'广州天河店',product:'提拉米苏',reason:'过期',amount:288},{time:'05-17 21:36',store:'东莞南城店',product:'巧克力蛋糕',reason:'破损',amount:268}]
-const purchases = [{no:'CG250524001',time:'07:30',supplier:'安佳乳业',material:'奶油',qty:'500kg'},{no:'CG250524002',time:'07:20',supplier:'金龙鱼',material:'面粉',qty:'1000kg'},{no:'CG250524003',time:'07:15',supplier:'可可之家',material:'可可粉',qty:'200kg'}]
+import { cakeProducts, prdCities } from '../data/mock';
+
+const kpis = [
+  { title: '销售额（今日）', value: '¥ 1,248,560.00', change: '较昨日 +12.6%' },
+  { title: '订单量（单）', value: '8,732', change: '较昨日 +9.3%' },
+  { title: '客单价（元）', value: '143.10', change: '较昨日 +5.7%' },
+  { title: '新增会员（人）', value: '1,268', change: '较昨日 +18.4%' },
+  { title: '配送中订单（单）', value: '512', change: '较昨日 +6.8%' },
+  { title: '骑手在线', value: '128/186', change: '在线率 68.8%' }
+];
+
+const warehouses = [
+  ['广州中心仓', '正常', '128/96', '3.1℃'],
+  ['深圳冷链仓', '正常', '96/72', '2.8℃'],
+  ['佛山仓', '预警', '62/48', '4.2℃'],
+  ['东莞仓', '正常', '54/36', '3.5℃'],
+  ['珠海仓', '正常', '38/28', '3.0℃']
+];
+
+const losses = [
+  ['05-24', '深圳南山店', '运输破损', '680.00'],
+  ['05-24', '广州天河店', '过期报废', '420.00'],
+  ['05-23', '东莞南城店', '包装破损', '350.00'],
+  ['05-23', '佛山千灯湖店', '保存不当', '280.00']
+];
+
+const states = [
+  { name: '待制作', value: '1,286', width: '22%' },
+  { name: '制作中', value: '2,153', width: '38%' },
+  { name: '待配送', value: '1,042', width: '18%' },
+  { name: '配送中', value: '512', width: '9%' },
+  { name: '已完成', value: '1,739', width: '13%' }
+];
+
+const materials = [
+  ['动物奶油', '28.5kg', '50kg', '预警'],
+  ['草莓', '15.2kg', '30kg', '预警'],
+  ['可可粉', '8.6kg', '20kg', '预警'],
+  ['黄油', '12.3kg', '20kg', '正常'],
+  ['抹茶粉', '6.1kg', '10kg', '正常']
+];
+
+const purchases = [
+  ['CG250524001', '新峰鲜乳业', '12,560', '待确认'],
+  ['CG250524002', '安琪酵母', '6,380', '待审核'],
+  ['CG250524003', '恒禾食品', '8,920', '待确认'],
+  ['CG250523004', '展艺烘焙', '5,760', '已到货']
+];
+
+const deliveries = [
+  ['00:00-06:00', '312', '294', '94.2%'],
+  ['06:00-12:00', '1,286', '1,152', '89.6%'],
+  ['12:00-18:00', '2,153', '1,986', '92.2%'],
+  ['18:00-24:00', '1,739', '1,612', '92.7%']
+];
 </script>
+
 <style scoped>
-.donut { width:180px; height:180px; border-radius:50%; margin:16px auto; display:grid; place-items:center; background: conic-gradient(#dc5000 0 62%, #6b8a52 62% 84%, #bbac97 84% 92%, #40372e 92% 100%); position:relative; }
-.donut::after { content:''; position:absolute; width:96px; height:96px; border-radius:50%; background:#100904; }
-.donut span { position:relative; z-index:1; text-align:center; font-weight:700; }
-.donut small { color:var(--color-faint-hazel); }
-.legend { display:grid; gap:8px; color:var(--color-faint-hazel); }
-.state-list { display:grid; gap:10px; }
-.state-row { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-radius:12px; background:rgba(93,108,73,.34); }
-.state-row.bad { background:rgba(150,48,34,.44); }
-.state-row b { font-size:24px; }
+.backend-dashboard { min-width: 0; }
+.cockpit-grid { display: grid; grid-template-columns: 1.05fr 2.65fr 1.25fr; gap: 12px; margin-top: 12px; }
+.store-rank { min-height: 344px; }
+.main-map { min-height: 344px; }
+.cockpit-map { min-height: 276px; }
+.right-status { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.right-status section { min-height: 100px; }
+.right-status h2 { margin: 0 0 12px; font-size: 15px; }
+.status-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.status-boxes div { padding: 10px; text-align: center; background: rgba(255, 237, 215, 0.05); border-radius: 10px; }
+.status-boxes b, .big-num { display: block; color: var(--color-light-cork); font-size: 26px; }
+.green-text { color: #93c86e !important; }
+.sales-trend, .hot-ranking, .pay-share, .city-rank, .order-source, .warehouse-table, .loss-table, .cake-state, .materials-table, .purchase-table, .delivery-table { min-height: 245px; }
+.rank-list { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.rank-list li { display: grid; grid-template-columns: 24px 44px 1fr 54px 60px; gap: 8px; align-items: center; }
+.rank-list li::before { display: grid; width: 22px; height: 22px; place-items: center; color: #fff; content: counter(list-item); background: var(--color-rust); border-radius: 50%; font-size: 11px; }
+.rank-list img { width: 44px; height: 34px; object-fit: cover; border-radius: 6px; }
+.rank-list span { color: var(--color-hazel); }
+.rank-list strong { color: var(--color-light-cork); }
+.legend-list { display: grid; gap: 8px; margin: 12px 0 0; padding-left: 16px; color: var(--color-hazel); }
+.city-bar { display: grid; grid-template-columns: 70px 1fr 82px; gap: 10px; align-items: center; margin-bottom: 12px; }
+.city-bar i { height: 5px; background: rgba(255, 237, 215, 0.08); border-radius: 999px; }
+.city-bar em { display: block; height: 100%; background: var(--color-rust); border-radius: 999px; }
+.city-bar b { text-align: right; }
+.state-row { position: relative; display: grid; grid-template-columns: 86px 1fr; gap: 12px; padding: 9px 12px; margin-bottom: 8px; overflow: hidden; background: rgba(255, 237, 215, 0.045); border-radius: 9px; }
+.state-row i { position: absolute; inset: 0 auto 0 0; z-index: 0; background: rgba(220, 80, 0, 0.26); }
+.state-row span, .state-row b { position: relative; z-index: 1; }
+.rust-text { color: var(--color-rust-2) !important; }
 </style>
